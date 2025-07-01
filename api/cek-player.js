@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   const SERVER_URL = process.env.SERVERTAP_URL;
-  const SERVER_KEY = process.env.SERVERTAP_KEY; // variable you create below
+  const SERVER_KEY = process.env.SERVERTAP_TOKEN; // variable you create below
 
   try {
     const response = await fetch(`${SERVER_URL}/v1/players/all`, {
