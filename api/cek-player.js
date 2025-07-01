@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(`${process.env.SERVERTAP_URL}/v1/players`, {
+    const response = await fetch(`${process.env.SERVERTAP_URL}/v1/players/all`, {
       headers: {
         "Authorization": `Bearer ${process.env.SERVERTAP_TOKEN}`
       }
