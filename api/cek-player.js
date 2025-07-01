@@ -6,10 +6,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Parameter "name" diperlukan.' });
   }
 
+  const SERVER_URL = process.env.SERVERTAP_URL;
+  const SERVER_KEY = process.env.SERVERTAP_KEY; // variable you create below
+
   try {
-    const response = await fetch("http://45.59.168.36:4568/v1/players/all", {
+    const response = await fetch(`${SERVER_URL}/v1/players/all`, {
       headers: {
-        "key": "andarakerenbangetturqouisejaya"  // sesuai dengan yang berhasil di cURL/Swagger
+        "key": SERVER_KEY
       }
     });
 
