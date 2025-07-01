@@ -9,14 +9,14 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(`http://45.59.168.36:4568/v1/players/all`, {
       headers: {
-        "Authorization": "Bearer 'andarakerenbangetturqouisejaya'"
+        "Authorization": "Bearer andarakerenbangetturqouisejaya"
       }
     });
 
     if (!response.ok) {
       const text = await response.text();
       return res.status(response.status).json({
-        error: 'Gagal mengambil data dari ServerTap',
+        error: 'Gagal mengambil data dari ServerTap nih',
         detail: text
       });
     }
