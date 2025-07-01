@@ -13,7 +13,7 @@ app.get("/cek-player", async (req, res) => {
   }
 
   try {
-    const response = await fetch(`http://IP_SERVER_BLOOM:4567/v1/players/${nickname}`, {
+    const response = await fetch(`http://45.59.168.36:4568/v1/players/${nickname}`, {
       headers: {
         Authorization: "Bearer andarakerenbangetturqouisejaya"
       }
