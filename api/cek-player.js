@@ -1,30 +1,51 @@
-const express = require("express");
-const cors = require("cors");
-const fetch = require("node-fetch");
+export default async function handler(req, res) {
+  const { name } = req.query;
 
-const app = express();
-app.use(cors());
-
-app.get("/cek-player", async (req, res) => {
-  const { nickname } = req.query;
-
-  if (!nickname) {
-    return res.status(400).json({ error: "Nickname is required" });
+  if (!name) {
+    return res.status(400).json({ error: 'Parameter "name" diperlukan.' });
   }
 
   try {
-    const response = await fetch(`http://45.59.168.36:4568/v1/players/${nickname}`, {
+    const response = await fetch(`${process.env.SERVERTAP_URL}/v1/players`, {
       headers: {
-        Authorization: "Bearer andarakerenbangetturqouisejaya"
+        "Authorization": `Bearer ${process.env.SERVERTAP_TOKEN}`
       }
     });
 
-    const data = await response.json();
-    res.status(response.status).json(data);
-  } catch (error) {
-    console.error("Gagal konek ke ServerTap:", error);
-    res.status(500).json({ error: "Failed to connect to ServerTap" });
-  }
-});
+    if (!response.ok) {
+      const text = await response.text();
+      return res.status(response.status).json({
+        error: 'Gagal mengambil data dari ServerTap',
+        detail: text
+      });
+    }
 
-module.exports = app;
+    const players = await response.json();
+
+    const player = players.find(p => p.name.toLowerCase() === name.toLowerCase());
+
+    if (!player) {
+      return res.status(200).json({
+        name,
+        exists: false,
+        message: "Anda belum pernah login ke server!"
+      });
+    }
+
+    return res.status(200).json({
+      name: player.name,
+      uuid: player.uuid,
+      op: player.op,
+      banned: player.banned,
+      balance: player.balance,
+      lastPlayed: player.lastPlayed,
+      exists: true
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      error: "Gagal menghubungi ServerTap",
+      detail: err.message
+    });
+  }
+}
